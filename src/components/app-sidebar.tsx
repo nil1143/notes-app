@@ -38,7 +38,7 @@ export async function AppSidebar({
         url: `/dashboard/${notebook.id}`,
         items: notebook.notes.map((note) => ({
           title: note.title,
-          url: `/dashboard/note/${note.id}`,
+          url: `/dashboard/notebook/${notebook.id}/note/${note.id}`,
         })),
       })) ?? []),
     ],

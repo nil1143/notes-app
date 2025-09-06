@@ -1,7 +1,7 @@
 import { PageWrapper } from "@/components/page-wrapper";
-// import RichTextEditor from "@/components/rich-text-editor";
+import RichTextEditor from "@/components/rich-text-editor";
 import { getNoteById } from "@/server/notes";
-// import { JSONContent } from "@tiptap/react";
+import { JSONContent } from "@tiptap/react";
 
 type Params = Promise<{
   noteId: string;
@@ -23,10 +23,10 @@ export default async function NotePage({ params }: { params: Params }) {
       ]}
     >
       <h1>{note?.title}</h1>
-      {/* <RichTextEditor
+      <RichTextEditor
         content={note?.content as JSONContent[]}
         noteId={noteId}
-      /> */}
+      />
     </PageWrapper>
   );
 }
