@@ -2,6 +2,7 @@ import { CreateNotebookButton } from "@/components/create-notebook-button";
 import Notebooks from "@/components/notebook";
 import { PageWrapper } from "@/components/page-wrapper";
 import { getNotebooks } from "@/server/notebooks";
+import NotebookCard from "@/components/notebook-card";
 
 export default async function Page() {
   const notebooks = await getNotebooks();
@@ -10,10 +11,10 @@ export default async function Page() {
       <h1>Notebooks</h1>
       {/* <Notebooks notebooks={notebooks} /> */}
       <CreateNotebookButton />
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {notebooks.success &&
           notebooks?.notebooks?.map((notebook) => (
-            <div key={notebook.id}>{notebook.name}</div>
+            <NotebookCard  key={notebook.id} notebook={notebook}/>
           ))}
       </div>
 

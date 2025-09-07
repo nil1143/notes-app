@@ -1,29 +1,16 @@
 import * as React from "react";
-
 import { SearchForm } from "@/components/search-form";
-
 import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
   SidebarRail,
-   SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarSeparator,
 } from "@/components/ui/sidebar";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 import { getNotebooks } from "@/server/notebooks";
 import Image from "next/image";
-// import { SidebarData } from "./sidebar-data";
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { SidebarData } from "./sidebar-data";
 
 export async function AppSidebar({
   ...props
@@ -48,54 +35,18 @@ export async function AppSidebar({
     <Sidebar {...props}>
       <SidebarHeader>
         <Link href="/dashboard" className="flex items-center gap-2 pl-2">
-          <Image src="/logo.png" alt="Logo" width={32} height={32} />
-          <h2>Notes</h2>
+          <div className="flex flex-1 items-center justify-center gap-4 p-1">
+          <Image src="/logo.png" alt="Logo" width={28} height={28} />
+            <h2>Notes App</h2>
+          </div>{" "}
         </Link>
-
+        <SidebarSeparator />
         <React.Suspense>
           <SearchForm />
         </React.Suspense>
       </SidebarHeader>
       <SidebarContent className="gap-0">
-        {data.navMain.map((item) => (
-        <Collapsible
-          key={item.title}
-          title={item.title}
-          defaultOpen
-          className="group/collapsible"
-        >
-          <SidebarGroup>
-            <SidebarGroupLabel
-              asChild
-              className="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm"
-            >
-              <CollapsibleTrigger>
-                {item.title}{" "}
-                {item.items.length > 0 && (
-                  <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
-                )}
-              </CollapsibleTrigger>
-            </SidebarGroupLabel>
-            <CollapsibleContent>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {item.items.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild>
-                        <a href={item.url}>
-                          {/* <File /> */}
-                          {item.title}
-                        </a>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </CollapsibleContent>
-          </SidebarGroup>
-        </Collapsible>
-      ))}
-        {/* <SidebarData data={data} /> */}
+        <SidebarData data={data} />
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
