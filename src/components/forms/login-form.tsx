@@ -61,15 +61,21 @@ export function LoginForm({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setIsLoading(true);
+      console.log("Submitting login form for:", values.email);
+      
       const response = await signInUser(values.email, values.password);
+      console.log("Login response:", response);
+      
       if (response.success) {
         toast.success(response.message);
         router.push("/dashboard");
       } else {
         toast.error(response.message);
+        console.error("Login failed:", response.message);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Login form error:", error);
+      toast.error("An unexpected error occurred");
     } finally {
       setIsLoading(false);
     }

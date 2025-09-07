@@ -4,16 +4,26 @@ import { auth } from "@/lib/auth";
 
 export const signInUser = async (email: string, password: string) => {
   try {
-    await auth.api.signInEmail({
+    console.log("Attempting sign in for email:", email);
+    console.log("Better Auth URL:", process.env.BETTER_AUTH_URL);
+    console.log("Database URL exists:", !!process.env.DATABASE_URL);
+    
+    const result = await auth.api.signInEmail({
       body: {
         email,
         password,
       },
     });
 
+    console.log("Sign in successful:", result);
     return { success: true, message: "Signed in successfully" };
   } catch (error) {
     const e = error as Error;
+    console.error("Sign in error:", {
+      message: e.message,
+      stack: e.stack,
+      name: e.name
+    });
     return { success: false, message: e.message || "Failed to sign in" };
   }
 };
