@@ -9,7 +9,6 @@ import { SidebarTrigger } from "./ui/sidebar";
 import { Logout } from "./logout";
 import { Fragment } from "react";
 import { ModeSwitcher } from "./mode-switcher";
-import { Button } from "./ui/button";
 
 interface PageWrapperProps {
   children: React.ReactNode;

@@ -20,7 +20,6 @@ interface PasswordResetEmailProps {
 const PasswordResetEmail = ({
   userName,
   resetUrl,
-  requestTime,
 }: PasswordResetEmailProps) => {
   return (
     <Html lang="en" dir="ltr">
@@ -62,8 +61,8 @@ const PasswordResetEmail = ({
               </Section>
 
               <Text className="text-[14px] text-gray-600 leading-[20px] mb-[16px]">
-                If the button doesn't work, you can copy and paste this link
-                into your browser:
+                If the button doesn&apos;t work, you can copy and paste this
+                link into your browser:
               </Text>
 
               <Text className="text-[14px] text-blue-600 leading-[20px] mb-[24px] break-all">
@@ -80,8 +79,8 @@ const PasswordResetEmail = ({
               </Text>
 
               <Text className="text-[14px] text-gray-600 leading-[20px] mb-[8px]">
-                • If you didn't request this password reset, please ignore this
-                email
+                • If you didn&apos;t request this password reset, please ignore
+                this email
               </Text>
 
               <Text className="text-[14px] text-gray-600 leading-[20px] mb-[8px]">
@@ -94,8 +93,8 @@ const PasswordResetEmail = ({
               </Text>
 
               <Text className="text-[14px] text-gray-600 leading-[20px]">
-                If you're having trouble or didn't request this reset, please
-                contact our support team immediately.
+                If you&apos;re having trouble or didn&apos;t request this reset,
+                please contact our support team immediately.
               </Text>
             </Section>
 

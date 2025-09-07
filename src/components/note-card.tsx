@@ -38,14 +38,16 @@ export default function NoteCard({ note }: NotebookCardProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   //  Function to extract text from TipTap JSON
-  const extractText = (content: any): string => {
+  const extractText = (content: unknown): string => {
     if (!content) return "No content";
     
     try {
-      const getText = (obj: any): string => {
+      const getText = (obj: unknown): string => {
         if (typeof obj === "string") return obj;
-        if (obj.text) return obj.text;
-        if (obj.content && Array.isArray(obj.content)) {
+        if (obj && typeof obj === "object" && "text" in obj) {
+          return String(obj.text);
+        }
+        if (obj && typeof obj === "object" && "content" in obj && Array.isArray(obj.content)) {
           return obj.content.map(getText).join(" ");
         }
         return "";

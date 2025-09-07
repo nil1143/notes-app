@@ -58,8 +58,8 @@ const VerificationEmail = ({
               </Section>
 
               <Text className="text-[14px] text-gray-600 leading-[20px] mb-[16px]">
-                If the button above doesn't work, you can copy and paste this
-                link into your browser:
+                If the button above doesn&apos;t work, you can copy and paste
+                this link into your browser:
               </Text>
               <Text className="text-[14px] text-blue-600 break-all mb-[24px]">
                 {verificationUrl}
@@ -67,8 +67,8 @@ const VerificationEmail = ({
 
               <Text className="text-[14px] text-gray-600 leading-[20px]">
                 This verification link will expire in 24 hours for security
-                purposes. If you didn't create an account, you can safely ignore
-                this email.
+                purposes. If you didn&apos;t create an account, you can safely
+                ignore this email.
               </Text>
             </Section>
 
