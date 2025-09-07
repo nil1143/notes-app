@@ -11,14 +11,26 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const auth = betterAuth({
+  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  secret: process.env.BETTER_AUTH_SECRET,
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
-      await resend.emails.send({
-        from: "Acme <onboarding@resend.dev>",
-        to: [user.email],
-        subject: "Verify your email address",
-        react: VerificationEmail({ userName: user.name, verificationUrl: url }),
-      });
+      try {
+        console.log("Sending verification email to:", user.email);
+        console.log("Verification URL:", url);
+        
+        const result = await resend.emails.send({
+          from: "Acme <onboarding@resend.dev>",
+          to: [user.email],
+          subject: "Verify your email address",
+          react: VerificationEmail({ userName: user.name, verificationUrl: url }),
+        });
+        
+        console.log("Email sent successfully:", result);
+      } catch (error) {
+        console.error("Failed to send verification email:", error);
+        throw error;
+      }
     },
     sendOnSignUp: true,
   },
@@ -31,16 +43,25 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     sendResetPassword: async ({ user, url }) => {
-      await resend.emails.send({
-        from: "Acme <onboarding@resend.dev>",
-        to: [user.email],
-        subject: "Reset your password",
-        react: PasswordResetEmail({
-          userName: user.name,
-          resetUrl: url,
-          requestTime: new Date().toLocaleString(),
-        }),
-      });
+      try {
+        console.log("Sending password reset email to:", user.email);
+        
+        const result = await resend.emails.send({
+          from: "Acme <onboarding@resend.dev>",
+          to: [user.email],
+          subject: "Reset your password",
+          react: PasswordResetEmail({
+            userName: user.name,
+            resetUrl: url,
+            requestTime: new Date().toLocaleString(),
+          }),
+        });
+        
+        console.log("Password reset email sent successfully:", result);
+      } catch (error) {
+        console.error("Failed to send password reset email:", error);
+        throw error;
+      }
     },
   },
   database: drizzleAdapter(db, {

@@ -1,6 +1,6 @@
 # 📝 Notes App
 
-A modern, full-stack notes application built for developers who want to capture, organize, and link their technical insights with style.
+> A modern, full-stack notes application built for developers who want to capture, organize, and link their technical insights with style.
 
 ![Notes App Hero](./public/landing.png)
 
@@ -14,7 +14,7 @@ Supercharge your workflow with Notes App — the smartest way to capture, organi
 - **Better Auth** integration with email/password authentication
 - Email verification system for secure account creation
 - Password reset functionality
-- Google OAuth support
+- Google OAuth support (configured)
 - Protected routes with middleware
 - Secure session management
 
@@ -36,6 +36,14 @@ Supercharge your workflow with Notes App — the smartest way to capture, organi
 - Search functionality across all notebooks and notes
 - Bulk operations with confirmation dialogs
 
+### ⚡ Rich Text Editor
+- **Bold, Italic, Strikethrough, Code** formatting
+- Text alignment (left, center, right)
+- Hover effects on toolbar buttons
+- Real-time content saving
+- Responsive toolbar design
+- Clean, distraction-free writing experience
+
 ### 🔍 Advanced Features
 - Real-time search with URL state management
 - Dynamic sidebar navigation
@@ -56,6 +64,7 @@ Supercharge your workflow with Notes App — the smartest way to capture, organi
 ### UI & Interactions
 - **[TipTap](https://tiptap.dev/)** - Rich text editing
 - **[shadcn/ui](https://ui.shadcn.com/)** - Beautiful, accessible components
+- **[Framer Motion](https://www.framer.com/motion/)** - Smooth animations
 - **[Lucide Icons](https://lucide.dev/)** - Consistent iconography
 - **[nuqs](https://nuqs.47ng.com/)** - URL state management
 - **[React Hook Form](https://react-hook-form.com/)** - Form handling
@@ -67,39 +76,40 @@ Supercharge your workflow with Notes App — the smartest way to capture, organi
 src/
 ├── app/                         # Next.js App Router
 │   ├── (auth)/                  # Authentication routes group
-│   │   ├── sign-in/            
-│   │   ├── sign-up/            
-│   │   └── reset-password/     
-│   ├── dashboard/              # Protected dashboard routes
-│   │   ├── notebook/           
-│   │   │   └── [notebookId]/   # Dynamic notebook routes
-│   │   │       ├── page.tsx    
-│   │   │       └── note/       
+│   │   ├── sign-in/             # Sign in page
+│   │   ├── sign-up/             # Sign up page
+│   │   └── reset-password/      # Password reset page
+│   ├── dashboard/               # Protected dashboard routes
+│   │   ├── notebook/            
+│   │   │   └── [notebookId]/    # Dynamic notebook routes
+│   │   │       ├── page.tsx     # Notebook detail page
+│   │   │       └── note/        
 │   │   │           └── [noteId]/
-│   │   │               └── page.tsx 
-│   │   └── page.tsx            
-│   ├── api/                    # API routes (Better Auth)
-│   ├── globals.css             # Global styles & themes
-│   ├── layout.tsx              # Root layout with providers
-│   └── page.tsx                # Landing page
-├── components/                 # Reusable UI components
-│   ├── ui/                     # shadcn/ui base components
-│   ├── emails/                
-│   └── forms/ 
-├── hooks/                      # Hooks           
-│   └── use-mobile.ts         
-├── server/                     # Server actions & database operations
-│   ├── notebooks.ts            # Notebook CRUD operations
-│   ├── notes.ts                # Note CRUD operations
-│   └── users.ts                # User management actions
-├── db/                         # Database configuration
-│   ├── schema.ts             
-│   └── drizzle.ts             
-├── lib/                        # Utilities & configuration
-│   ├── auth.ts               
-│   ├── auth-client.ts        
-│   └── utils.ts               
-└── public/                     # Static assets
+│   │   │               └── page.tsx # Note editor page
+│   │   └── page.tsx             # Dashboard overview
+│   ├── api/                     # API routes (Better Auth)
+│   ├── globals.css              # Global styles & themes
+│   ├── layout.tsx               # Root layout with providers
+│   └── page.tsx                 # Landing page
+├── components/                  # Reusable UI components
+│   ├── ui/                      # shadcn/ui base components
+│   ├── emails/                  # Email templates
+│   └── forms/                   # Form components
+├── hooks/                       # Custom React hooks           
+│   └── use-mobile.ts            # Mobile detection hook
+├── server/                      # Server actions & database operations
+│   ├── notebooks.ts             # Notebook CRUD operations
+│   ├── notes.ts                 # Note CRUD operations
+│   └── users.ts                 # User management actions
+├── db/                          # Database configuration
+│   ├── schema.ts                # Drizzle schema definitions
+│   └── drizzle.ts               # Database connection
+├── lib/                         # Utilities & configuration
+│   ├── auth.ts                  # Better Auth server config
+│   ├── auth-client.ts           # Better Auth client config
+│   └── utils.ts                 # Helper functions
+└── public/                      # Static assets
+
 ```
 
 ## 📱 Screenshots
@@ -108,13 +118,17 @@ src/
 |-------------|------------|
 | ![Light Theme](./public/light-theme.png) | ![Dark Theme](./public/dark-theme.png) |
 
-| Landing | Dashboard |
+| Landing Page | Dashboard |
 |-------------|------------|
 | ![Landing](./public/landing-2.png) | ![Dashboard](./public/dashboard.png) |
 
+| Login | SignUp |
+|-------------|------------|
+| ![Login](./public/login.png) | ![SignUp](./public/singup.png) |
+
 | Create Notebook | Create Note |
 |-------------|------------|
-| ![Create](./public/create-notebook.png) | ![Create2](./public/create-note.png) |
+| ![Create Notebook](./public/create-notebook.png) | ![Create Note](./public/create-note.png) |
 
 ## 🚀 Getting Started
 
