@@ -63,15 +63,29 @@ export function LoginForm({
       setIsLoading(true);
       console.log("Submitting login form for:", values.email);
       
-      const response = await signInUser(values.email, values.password);
-      console.log("Login response:", response);
+      // Try using authClient directly instead of server action
+      const response = await authClient.signIn.email({
+        email: values.email,
+        password: values.password,
+      });
       
-      if (response.success) {
-        toast.success(response.message);
-        router.push("/dashboard");
+      console.log("Direct auth client response:", response);
+      
+      if (response.data) {
+        toast.success("Signed in successfully");
+        
+        // Check cookies after successful login
+        console.log("All cookies after login:", document.cookie);
+        console.log("Checking for Better Auth session cookie...");
+        
+        // Wait a moment for cookies to be set, then redirect
+        setTimeout(() => {
+          console.log("Redirecting to dashboard...");
+          router.push("/dashboard");
+        }, 500);
       } else {
-        toast.error(response.message);
-        console.error("Login failed:", response.message);
+        toast.error(response.error?.message || "Login failed");
+        console.error("Login failed:", response.error);
       }
     } catch (error) {
       console.error("Login form error:", error);

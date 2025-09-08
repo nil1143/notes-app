@@ -13,6 +13,23 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
   secret: process.env.BETTER_AUTH_SECRET,
+  session: {
+    cookieCache: {
+      enabled: true,
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+    },
+  },
+  cookies: {
+    sessionToken: {
+      name: "better-auth.session_token",
+      attributes: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+      },
+    },
+  },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
       try {
