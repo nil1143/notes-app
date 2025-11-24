@@ -20,25 +20,76 @@ interface SidebarDataProps {
   data: {
     navMain: {
       title: string;
+      url: string;
       items: { title: string; url: string }[];
     }[];
   };
 }
 
+// Helper function to highlight matching text
+function highlightText(text: string, searchQuery: string) {
+  if (!searchQuery) return text;
+
+  const parts = text.split(new RegExp(`(${searchQuery})`, "gi"));
+
+  return (
+    <>
+      {parts.map((part, index) =>
+        part.toLowerCase() === searchQuery.toLowerCase() ? (
+          <mark
+            key={index}
+            className="bg-primary/30 text-foreground font-semibold rounded px-0.5"
+          >
+            {part}
+          </mark>
+        ) : (
+          <span key={index}>{part}</span>
+        )
+      )}
+    </>
+  );
+}
+
 export function SidebarData({ data }: SidebarDataProps) {
   const [search] = useQueryState("search", { defaultValue: "" });
+  const searchQuery = search.toLowerCase();
 
-  const filteredData = data.navMain.filter((item) => {
-    const notebookMatches = item.title
-      .toLowerCase()
-      .includes(search.toLowerCase());
+  const filteredData = data.navMain
+    .map((notebook) => {
+      if (searchQuery === "") {
+        // No search - show everything
+        return {
+          ...notebook,
+          items: notebook.items.map((note) => ({
+            ...note,
+            isMatch: false,
+          })),
+        };
+      }
 
-    const noteMatches = item.items.some((note) =>
-      note.title.toLowerCase().includes(search.toLowerCase())
-    );
+      // Find notes that CONTAIN the search query
+      const matchingNotes = notebook.items.filter(
+        (note) => note.title.toLowerCase().includes(searchQuery)
+      );
 
-    return notebookMatches || noteMatches;
-  });
+      // Check if notebook name CONTAINS the search query
+      const notebookMatches = notebook.title.toLowerCase().includes(searchQuery);
+
+      // Show notebook if it has matching notes OR notebook name matches
+      if (matchingNotes.length > 0 || notebookMatches) {
+        return {
+          ...notebook,
+          items: notebook.items.map((note) => ({
+            ...note,
+            isMatch: note.title.toLowerCase().includes(searchQuery),
+          })),
+        };
+      }
+
+      // No match - don't show this notebook
+      return null;
+    })
+    .filter((notebook): notebook is NonNullable<typeof notebook> => notebook !== null);
 
   return (
     <>
@@ -64,12 +115,12 @@ export function SidebarData({ data }: SidebarDataProps) {
             <CollapsibleContent>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  {item.items.map((item) => (
-                    <SidebarMenuItem key={item.title}>
+                  {item.items.map((note) => (
+                    <SidebarMenuItem key={note.title}>
                       <SidebarMenuButton asChild>
-                        <a href={item.url}>
+                        <a href={note.url}>
                           <File />
-                          {item.title}
+                          <span>{highlightText(note.title, searchQuery)}</span>
                         </a>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
