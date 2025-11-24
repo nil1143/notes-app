@@ -1,6 +1,8 @@
 # 📝 Notes App
 
-> A modern, full-stack notes application built for developers who want to capture, organize, and link their technical insights with style.
+https://notes-app-navy-one.vercel.app
+
+ A modern, full-stack notes application built for developers who want to capture, organize, and link their technical insights with style.
 
 ![Notes App Hero](./public/landing.png)
 
@@ -130,6 +132,79 @@ src/
 |-------------|------------|
 | ![Create Notebook](./public/create-notebook.png) | ![Create Note](./public/create-note.png) |
 
+## 🌟 Recent Improvements
+
+- ✅ **Production Authentication** - Fixed deployment auth issues with proper cookie configuration
+- ✅ **Landing Page** - Beautiful hero section with animated features showcase
+- ✅ **Theme System** - Seamless dark/light mode with persistence
+- ✅ **Rich Editor** - Simplified, reliable TipTap implementation
+- ✅ **UI Polish** - Card components, hover effects, and animations
+- ✅ **Search Enhancement** - Real-time search with URL state
+- ✅ **Navigation** - Intuitive breadcrumbs and sidebar organization
+- ✅ **Performance** - Optimized loading states and error handling
+
+### Issues
+
+<details>
+<summary>Authentication Issue Resolution Summary</summary>
+
+<br>
+🔍 The Problem
+
+- Authentication worked perfectly on localhost:3000
+- Complete failure on Vercel deployment - users couldn't log in or stay logged in
+- Login appeared to succeed but users weren't redirected to /dashboard
+- Sessions weren't persisting in production environment
+
+🛠️ Root Causes Identified
+
+- Missing Better Auth configuration - no baseURL and secret in production
+- Cookie settings incompatible with Vercel's production environment
+- Server actions weren't handling cookies properly in production
+- Middleware cookie detection was using wrong cookie names
+Auth client configuration was hardcoded to localhost
+
+✅ Solutions Implemented
+
+1. Better Auth Server Configuration
+
+2. Auth Client Fix
+
+3. Login Method Switch:
+
+    - ❌ Server actions (poor cookie handling)
+
+    - ✅ Direct authClient.signIn.email() (proper cookie management)
+
+4. Environment Variables:
+
+    - Added NEXT_PUBLIC_BASE_URL=https://notes-app-navy-one.vercel.app
+
+    - Ensured all Better Auth variables were set correctly
+
+5. Middleware Debugging:
+
+    - Temporarily disabled to isolate the issue
+
+    - Identified correct cookie name: 'better-auth.session_token'
+
+🏆 Final Result
+
+- ✅ Login works perfectly on production
+- ✅ Sessions persist across page reloads
+- ✅ Redirects function properly to /dashboard
+- ✅ Cookies set correctly in production environment
+- ✅ Authentication flow identical between local and production
+
+📚 Key Lessons Learned
+
+- Production environment differences require explicit configuration
+- Cookie handling varies significantly between development and production
+- Direct auth client usage often more reliable than server actions for auth
+- Environment variables must be set correctly on deployment platforms
+- Debugging with extensive logging is crucial for production issues
+</details>
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -213,16 +288,6 @@ pnpm db:reset
 # Check database status
 pnpm db:check
 ```
-
-## 🌟 Recent Improvements
-
-- ✅ **Landing Page** - Beautiful hero section with animated features showcase
-- ✅ **Theme System** - Seamless dark/light mode with persistence
-- ✅ **Rich Editor** - Simplified, reliable TipTap implementation
-- ✅ **UI Polish** - Card components, hover effects, and animations
-- ✅ **Search Enhancement** - Real-time search with URL state
-- ✅ **Navigation** - Intuitive breadcrumbs and sidebar organization
-- ✅ **Performance** - Optimized loading states and error handling
 
 ## 🤝 Contributing
 

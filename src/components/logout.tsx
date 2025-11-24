@@ -8,8 +8,17 @@ export function Logout() {
   const router = useRouter();
 
   const handleLogout = async () => {
-    await authClient.signOut();
-    router.push("/");
+    try {
+      await authClient.signOut();
+      // Just redirect without waiting for callbacks
+      router.push("/login");
+      router.refresh();
+    } catch (error) {
+      console.error("Sign out failed:", error);
+      // Still redirect even if there's an error
+      router.push("/login");
+      router.refresh();
+    }
   };
 
   return (

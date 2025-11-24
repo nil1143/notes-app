@@ -62,22 +62,22 @@ export function LoginForm({
     try {
       setIsLoading(true);
       console.log("Submitting login form for:", values.email);
-      
+
       // Try using authClient directly instead of server action
       const response = await authClient.signIn.email({
         email: values.email,
         password: values.password,
       });
-      
+
       console.log("Direct auth client response:", response);
-      
+
       if (response.data) {
         toast.success("Signed in successfully");
-        
+
         // Check cookies after successful login
         console.log("All cookies after login:", document.cookie);
         console.log("Checking for Better Auth session cookie...");
-        
+
         // Wait a moment for cookies to be set, then redirect
         setTimeout(() => {
           console.log("Redirecting to dashboard...");
@@ -131,12 +131,6 @@ export function LoginForm({
                       <FormItem>
                         <div className="flex items-center">
                           <FormLabel>Password</FormLabel>
-                          <Link
-                            href="/forgot-password"
-                            className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                          >
-                            Forgot your password?
-                          </Link>
                         </div>
                         <FormControl>
                           <Input
