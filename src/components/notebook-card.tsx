@@ -21,21 +21,20 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Loader2, Trash2 } from "lucide-react";
-import { deleteNotebook } from "@/server/notebooks";
+import { BookOpen, Loader2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { deleteNotebook } from "@/server/notebooks";
 
 interface NotebookCardProps {
-  notebook: Notebook;
+  notebook: Notebook & { notes: { id: string }[] };
 }
 
 export default function NotebookCard({ notebook }: NotebookCardProps) {
   const router = useRouter();
-
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const handleDelete = async () => {
     try {
@@ -45,30 +44,47 @@ export default function NotebookCard({ notebook }: NotebookCardProps) {
       if (response.success) {
         toast.success("Notebook deleted successfully");
         router.refresh();
+      } else {
+        toast.error("Failed to delete notebook");
       }
     } catch {
       toast.error("Failed to delete notebook");
     } finally {
       setIsDeleting(false);
-      setIsOpen(false);
+      setIsDeleteDialogOpen(false);
     }
   };
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{notebook.name}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p>{notebook.notes?.length ?? 0} notes</p>
-      </CardContent>
-      <CardFooter className="flex justify-center gap-2">
-        <Link href={`/dashboard/notebook/${notebook.id}`}>
-          <Button variant="outline">View</Button>
-        </Link>
 
-        <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+  const noteCount = notebook.notes?.length || 0;
+  return (
+    <Card className="flex flex-col items-center justify-between p-4 gap-2 hover:shadow-lg transition-shadow min-h-[220px] max-w-[300px] bg-gradient-to-br from-background to-muted/40">
+      <div className="flex flex-col items-center gap-2 w-full">
+        <div className="bg-muted rounded-full p-3 mb-2">
+          <BookOpen className="h-7 w-7 text-primary" />
+        </div>
+        <CardTitle className="text-center w-full">{notebook.name}</CardTitle>
+        <p className="text-xs text-muted-foreground text-center">
+          {noteCount} {noteCount === 1 ? "note" : "notes"}
+        </p>
+      </div>
+      <div className="flex w-full gap-2 mt-4">
+        <Link href={`/dashboard/notebook/${notebook.id}`} className="flex-1">
+          <Button variant="default" size="sm" className="w-full">
+            Open
+          </Button>
+        </Link>
+        <AlertDialog
+          open={isDeleteDialogOpen}
+          onOpenChange={setIsDeleteDialogOpen}
+        >
           <AlertDialogTrigger asChild>
-            <Button variant="destructive" disabled={isDeleting}>
+            <Button
+              variant="destructive"
+              size="sm"
+              className="w-10"
+              disabled={isDeleting}
+              aria-label="Delete notebook"
+            >
               {isDeleting ? (
                 <Loader2 className="size-4 animate-spin" />
               ) : (
@@ -81,7 +97,7 @@ export default function NotebookCard({ notebook }: NotebookCardProps) {
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
                 This action cannot be undone. This will permanently delete the
-                notebook and all its notes.
+                notebook and all of its notes.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
@@ -92,7 +108,7 @@ export default function NotebookCard({ notebook }: NotebookCardProps) {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-      </CardFooter>
+      </div>
     </Card>
   );
 }

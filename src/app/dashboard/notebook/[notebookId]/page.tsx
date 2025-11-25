@@ -28,7 +28,11 @@ export default async function NotebookPage({ params }: { params: Params }) {
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {notebook?.notes?.map((note) => (
-          <NoteCard key={note.id} note={note} />
+          <NoteCard 
+            key={note.id} 
+            note={note} 
+            notebookName={notebook.name}
+          />
         ))}
       </div>
     </PageWrapper>
