@@ -14,8 +14,6 @@ Supercharge your workflow with Notes App — the smartest way to capture, organi
 
 ### 🔐 Authentication & Security
 - **Better Auth** integration with email/password authentication
-- Email verification system for secure account creation
-- Password reset functionality
 - Google OAuth support (configured)
 - Protected routes with middleware
 - Secure session management
@@ -76,41 +74,110 @@ Supercharge your workflow with Notes App — the smartest way to capture, organi
 
 ```
 src/
-├── app/                         # Next.js App Router
-│   ├── (auth)/                  # Authentication routes group
-│   │   ├── sign-in/             # Sign in page
-│   │   ├── sign-up/             # Sign up page
-│   │   └── reset-password/      # Password reset page
-│   ├── dashboard/               # Protected dashboard routes
-│   │   ├── notebook/            
-│   │   │   └── [notebookId]/    # Dynamic notebook routes
-│   │   │       ├── page.tsx     # Notebook detail page
-│   │   │       └── note/        
-│   │   │           └── [noteId]/
-│   │   │               └── page.tsx # Note editor page
-│   │   └── page.tsx             # Dashboard overview
-│   ├── api/                     # API routes (Better Auth)
-│   ├── globals.css              # Global styles & themes
-│   ├── layout.tsx               # Root layout with providers
-│   └── page.tsx                 # Landing page
-├── components/                  # Reusable UI components
-│   ├── ui/                      # shadcn/ui base components
-│   ├── emails/                  # Email templates
-│   └── forms/                   # Form components
-├── hooks/                       # Custom React hooks           
-│   └── use-mobile.ts            # Mobile detection hook
-├── server/                      # Server actions & database operations
-│   ├── notebooks.ts             # Notebook CRUD operations
-│   ├── notes.ts                 # Note CRUD operations
-│   └── users.ts                 # User management actions
-├── db/                          # Database configuration
-│   ├── schema.ts                # Drizzle schema definitions
-│   └── drizzle.ts               # Database connection
-├── lib/                         # Utilities & configuration
-│   ├── auth.ts                  # Better Auth server config
-│   ├── auth-client.ts           # Better Auth client config
-│   └── utils.ts                 # Helper functions
-└── public/                      # Static assets
+│   middleware.ts            # Next.js middleware (e.g. auth, redirects)
+│
+├───app                     # Next.js App Router
+│   │   favicon.ico         # App favicon
+│   │   globals.css         # Global styles & themes
+│   │   layout.tsx          # Root layout with providers
+│   │   page.tsx            # Landing page
+│   │
+│   ├───api                 # API routes (Next.js Route Handlers)
+│   │   ├───auth
+│   │   │   └───[...all]
+│   │   │           route.ts    # Auth API endpoint (Better Auth)
+│   │   └───test
+│   │           route.ts        # Test API endpoint
+│   │
+│   ├───dashboard           # Protected dashboard routes
+│   │   │   layout.tsx          # Dashboard layout
+│   │   │   page.tsx            # Dashboard overview
+│   │   │
+│   │   └───notebook
+│   │       └───[notebookId]    # Dynamic notebook routes
+│   │           │   page.tsx        # Notebook detail page
+│   │           │
+│   │           └───note
+│   │               └───[noteId]    # Dynamic note routes
+│   │                       page.tsx    # Note editor page
+│   │
+│   ├───login               # Login page route
+│   │       page.tsx
+│   │
+│   └───signup              # Signup page route
+│           page.tsx
+│
+├───components              # Reusable UI and app components
+│   │   app-sidebar.tsx         # Sidebar navigation
+│   │   call-to-action.tsx      # CTA section
+│   │   create-note-button.tsx  # Button to create a note
+│   │   create-notebook-button.tsx # Button to create a notebook
+│   │   features.tsx            # Features section
+│   │   footer.tsx              # App footer
+│   │   header.tsx              # App header
+│   │   hero-section.tsx        # Hero/landing section
+│   │   logo.tsx                # App logo
+│   │   logout.tsx              # Logout button
+│   │   mode-switcher.tsx       # Theme mode switcher
+│   │   mode-toggle.tsx         # Theme toggle button
+│   │   note-card.tsx           # Note card component
+│   │   note-preview-modal.tsx  # Note preview modal (Dialog)
+│   │   note-preview.tsx        # Note preview card (static)
+│   │   notebook-card.tsx       # Notebook card component
+│   │   page-wrapper.tsx        # Page wrapper layout
+│   │   protected-route.tsx     # Route protection HOC
+│   │   rich-text-editor.tsx    # Rich text editor (TipTap)
+│   │   search-form.tsx         # Search form
+│   │   sidebar-data.tsx        # Sidebar navigation data
+│   │   theme-provider.tsx      # Theme provider
+│   │   version-switcher.tsx    # Version switcher
+│   │
+│   │
+│   │
+│   │ 
+│   │
+│   ├───forms                  # Form components
+│   │       login-form.tsx         # Login form
+│   │       signup-form.tsx        # Signup form
+│   │
+│   └───ui                     # shadcn/ui base components
+│           alert-dialog.tsx       # Alert dialog
+│           animated-group.tsx     # Animated group wrapper
+│           badge.tsx              # Badge component
+│           breadcrumb.tsx         # Breadcrumb navigation
+│           button.tsx             # Button component
+│           card.tsx               # Card component
+│           collapsible.tsx        # Collapsible panel
+│           dialog.tsx             # Dialog/modal
+│           dropdown-menu.tsx      # Dropdown menu
+│           form.tsx               # Form wrapper
+│           input.tsx              # Input field
+│           label.tsx              # Label component
+│           separator.tsx          # Separator line
+│           sheet.tsx              # Sheet/side panel
+│           sidebar.tsx            # Sidebar base
+│           skeleton.tsx           # Skeleton loader
+│           sonner.tsx             # Toast notifications
+│           text-effect.tsx        # Text effect
+│           toggle.tsx             # Toggle switch
+│           tooltip.tsx            # Tooltip
+│
+├───db                         # Database config & schema
+│       drizzle.ts                 # Drizzle ORM connection
+│       schema.ts                  # Drizzle schema definitions
+│
+├───hooks                      # Custom React hooks
+│       use-mobile.ts               # Mobile detection hook
+│
+├───lib                        # Utilities & configuration
+│       auth-client.ts              # Better Auth client config
+│       auth.ts                     # Better Auth server config
+│       utils.ts                    # Helper functions
+│
+└───server                     # Server actions & database ops
+        notebooks.ts               # Notebook CRUD operations
+        notes.ts                   # Note CRUD operations
+        users.ts                   # User management actions
 
 ```
 
@@ -118,19 +185,23 @@ src/
 
 | Light Theme | Dark Theme |
 |-------------|------------|
-| ![Light Theme](./public/light-theme.png) | ![Dark Theme](./public/dark-theme.png) |
+| ![Light Theme](./public/notes-page.png) | ![Dark Theme](./public/notes-page-dark.png) |
 
-| Landing Page | Dashboard |
+| Landing Page | Editor |
 |-------------|------------|
-| ![Landing](./public/landing-2.png) | ![Dashboard](./public/dashboard.png) |
+| ![Landing](./public/landing2.png) | ![Dashboard](./public/text-editor-dark.png) |
 
-| Login | SignUp |
+| Notebooks | Notes |
 |-------------|------------|
-| ![Login](./public/login.png) | ![SignUp](./public/singup.png) |
+| ![Login](./public/notebook-page-dark.png) | ![SignUp](./public/notes-page-dark.png) |
 
-| Create Notebook | Create Note |
+| Create | Note Preview |
 |-------------|------------|
-| ![Create Notebook](./public/create-notebook.png) | ![Create Note](./public/create-note.png) |
+| ![Create Notebook](./public/create.png) | ![Create Note](./public/note-prev-dark.png) |
+
+| Sign Up | Log In |
+|-------------|------------|
+|![SignUp](./public/signup.png) | ![LogIn](./public/login.png) |
 
 ## 🌟 Recent Improvements
 
@@ -140,70 +211,10 @@ src/
 - ✅ **Rich Editor** - Simplified, reliable TipTap implementation
 - ✅ **UI Polish** - Card components, hover effects, and animations
 - ✅ **Search Enhancement** - Real-time search with URL state
-- ✅ **Navigation** - Intuitive breadcrumbs and sidebar organization
-- ✅ **Performance** - Optimized loading states and error handling
 
-### Issues
-
-<details>
-<summary>Authentication Issue Resolution Summary</summary>
 
 <br>
-🔍 The Problem
 
-- Authentication worked perfectly on localhost:3000
-- Complete failure on Vercel deployment - users couldn't log in or stay logged in
-- Login appeared to succeed but users weren't redirected to /dashboard
-- Sessions weren't persisting in production environment
-
-🛠️ Root Causes Identified
-
-- Missing Better Auth configuration - no baseURL and secret in production
-- Cookie settings incompatible with Vercel's production environment
-- Server actions weren't handling cookies properly in production
-- Middleware cookie detection was using wrong cookie names
-Auth client configuration was hardcoded to localhost
-
-✅ Solutions Implemented
-
-1. Better Auth Server Configuration
-
-2. Auth Client Fix
-
-3. Login Method Switch:
-
-    - ❌ Server actions (poor cookie handling)
-
-    - ✅ Direct authClient.signIn.email() (proper cookie management)
-
-4. Environment Variables:
-
-    - Added NEXT_PUBLIC_BASE_URL=https://notes-app-navy-one.vercel.app
-
-    - Ensured all Better Auth variables were set correctly
-
-5. Middleware Debugging:
-
-    - Temporarily disabled to isolate the issue
-
-    - Identified correct cookie name: 'better-auth.session_token'
-
-🏆 Final Result
-
-- ✅ Login works perfectly on production
-- ✅ Sessions persist across page reloads
-- ✅ Redirects function properly to /dashboard
-- ✅ Cookies set correctly in production environment
-- ✅ Authentication flow identical between local and production
-
-📚 Key Lessons Learned
-
-- Production environment differences require explicit configuration
-- Cookie handling varies significantly between development and production
-- Direct auth client usage often more reliable than server actions for auth
-- Environment variables must be set correctly on deployment platforms
-- Debugging with extensive logging is crucial for production issues
-</details>
 
 ## 🚀 Getting Started
 

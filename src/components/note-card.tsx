@@ -27,6 +27,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { deleteNote } from "@/server/notes";
 import { NotePreviewModal } from "./note-preview-modal";
+import type { JSONContent } from "@tiptap/react";
 
 interface NoteCardProps {
   note: Note;
@@ -110,7 +111,7 @@ export default function NoteCard({ note, notebookName }: NoteCardProps) {
 
   return (
     <>
-      <Card className="max-w-[300px] group hover:shadow-xl transition-all duration-300 border-l-4 border-l-primary/50 hover:border-l-primary relative overflow-hidden bg-gradient-to-br from-background to-muted/20">
+      <Card className="max-w-[300px] min-w-[230px] group hover:shadow-xl transition-all duration-300 border-l-4 border-l-primary/50 hover:border-l-primary relative overflow-hidden bg-gradient-to-br from-background to-muted/20">
         {/* Decorative corner */}
         <div className="absolute top-0 right-0 w-20 h-20 bg-primary/5 rounded-bl-full" />
 
@@ -128,11 +129,11 @@ export default function NoteCard({ note, notebookName }: NoteCardProps) {
           </p>
         </CardHeader>
 
-        {/* <CardContent className="pb-3">
+        <CardContent className="pb-3">
           <p className="text-sm text-muted-foreground line-clamp-3 min-h-[3.6rem]">
             {displayContent}
           </p>
-        </CardContent> */}
+        </CardContent>
 
         <CardFooter className="flex gap-2 pt-2 border-t">
           {hasContent && (
@@ -205,8 +206,7 @@ export default function NoteCard({ note, notebookName }: NoteCardProps) {
           title={note.title || "Untitled Note"}
           notebookName={notebookName}
           createdAt={note.createdAt ? new Date(note.createdAt) : new Date()}
-          updatedAt={note.updatedAt ? new Date(note.updatedAt) : new Date()}
-          content={note.content as any}
+          content={note.content as JSONContent}
         />
       )}
     </>

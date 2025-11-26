@@ -1,7 +1,13 @@
 "use client";
 
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Calendar } from "lucide-react";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import { Calendar, Clock } from "lucide-react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
@@ -12,22 +18,20 @@ import Link from "@tiptap/extension-link";
 import { JSONContent } from "@tiptap/react";
 import { useEffect } from "react";
 
-interface NotePreviewModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+interface NotePreviewCardProps {
   title: string;
   notebookName: string;
   createdAt: Date;
+  updatedAt: Date;
   content: JSONContent | JSONContent[];
 }
 
-export function NotePreviewModal({
-  isOpen,
-  onClose,
+export function NotePreview({
   title,
   createdAt,
+  updatedAt,
   content,
-}: NotePreviewModalProps) {
+}: NotePreviewCardProps) {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -48,43 +52,41 @@ export function NotePreviewModal({
     editable: false,
     immediatelyRender: false,
     onCreate: ({ editor }) => {
-      if (isOpen) {
-        editor.commands.setContent(content);
-      }
+      editor.commands.setContent(content);
     },
   });
 
   useEffect(() => {
-    if (editor && isOpen) {
+    if (editor) {
       editor.commands.setContent(content);
     }
-  }, [editor, isOpen, content]);
-
-  if (!isOpen) {
-    return null;
-  }
+  }, [editor, content]);
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] flex flex-col">
-        <DialogHeader>
-          <div className="flex items-start justify-between gap-4">
-            <div className="space-y-2 flex-1">
-              <DialogTitle className="text-2xl">{title}</DialogTitle>
-              <DialogDescription className="flex items-center gap-4 text-sm">
+    <Card className="max-w-4xl max-h-[90vh] flex flex-col">
+      <CardHeader>
+        <div className="flex items-start justify-between gap-4">
+          <div className="space-y-2 flex-1">
+            <CardTitle className="text-2xl">{title}</CardTitle>
+            <CardDescription>
+              <div className="flex items-center gap-4 text-sm">
                 <span className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
                   Created: {createdAt.toLocaleDateString()}
                 </span>
-              </DialogDescription>
-            </div>
+                <span className="flex items-center gap-1">
+                  <Clock className="h-4 w-4" />
+                  Updated: {updatedAt.toLocaleDateString()}
+                </span>
+              </div>
+            </CardDescription>
           </div>
-        </DialogHeader>
-
-        <div className="flex-1 overflow-y-auto prose prose-neutral dark:prose-invert max-w-none pr-4 mt-4">
-          <EditorContent
-            editor={editor}
-            className="[&_.ProseMirror]:outline-none 
+        </div>
+      </CardHeader>
+      <CardContent className="flex-1 overflow-y-auto prose prose-neutral dark:prose-invert max-w-none pr-4 mt-4">
+        <EditorContent
+          editor={editor}
+          className="[&_.ProseMirror]:outline-none 
             [&_.ProseMirror_h1]:text-3xl 
             [&_.ProseMirror_h1]:font-bold 
             [&_.ProseMirror_h1]:mb-4 
@@ -113,9 +115,8 @@ export function NotePreviewModal({
             [&_.ProseMirror_code]:bg-muted 
             [&_.ProseMirror_code]:px-1 
             [&_.ProseMirror_code]:rounded"
-          />
-        </div>
-      </DialogContent>
-    </Dialog>
+        />
+      </CardContent>
+    </Card>
   );
 }

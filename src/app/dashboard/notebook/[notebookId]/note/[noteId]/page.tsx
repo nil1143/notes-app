@@ -5,6 +5,7 @@ import { JSONContent } from "@tiptap/react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+// import { NotePreview } from "@/components/note-preview";
 
 type Params = Promise<{
   noteId: string;
@@ -31,12 +32,21 @@ export default async function NotePage({ params }: { params: Params }) {
       ]}
     >
       <div className="space-y-4">
+        {/* <NotePreview
+          title={note.title || "Untitled Note"}
+          isOpen={true}
+       
+          notebookName={note.notebook?.name || "Notebook"}
+          createdAt={note.createdAt}
+          updatedAt={note.updatedAt}
+          content={note.content as JSONContent | JSONContent[]}
+        /> */}
         <RichTextEditor
           content={note.content as JSONContent[]}
           noteId={noteId}
         />
         
-        <div className="flex justify-end">
+        <div className="flex justify-center">
           <Link href={`/dashboard/notebook/${notebookId}`}>
             <Button size="lg" className="gap-2">
               <ArrowLeft className="h-4 w-4" />

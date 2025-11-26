@@ -34,7 +34,6 @@ import {
   AlignCenter,
   AlignRight,
   AlignJustify,
-  Plus,
   ChevronDown,
   Superscript as SuperscriptIcon,
   Subscript as SubscriptIcon,
@@ -212,7 +211,7 @@ const RichTextEditor = ({ content, noteId }: RichTextEditorProps) => {
 // ...existing code...
 
   return (
-    <div className="w-full bg-card text-card-foreground rounded-lg overflow-hidden border">
+    <div className="max-w-5xl mx-auto bg-card text-card-foreground rounded-lg overflow-hidden border">
       {/* Toolbar - Organized in rows */}
       <div className="p-1.5 sm:p-2 bg-muted/50 border-b space-y-1 sm:space-y-0">
         {/* Row 1: Undo/Redo, Heading, Lists - Mobile */}
