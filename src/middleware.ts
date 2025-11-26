@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(request: NextRequest) {
-  // Get the Better Auth session cookie
-  const sessionToken = request.cookies.get('_Secure-better-auth.session_token')?.value ||
-    request.cookies.get('better-auth.session_token')?.value;
+  
+  const cookieName =
+  process.env.NODE_ENV === "production"
+    ? "_Secure-better-auth.session_token"
+    : "better-auth.session_token";
+
+const sessionToken = request.cookies.get(cookieName)?.value;
   
   console.log("Middleware check:", { 
     path: request.nextUrl.pathname, 

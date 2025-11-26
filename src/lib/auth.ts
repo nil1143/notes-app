@@ -15,13 +15,13 @@ export const auth = betterAuth({
   },
   cookies: {
     sessionToken: {
-      name: "better-auth.session_token",
+      name: process.env.NODE_ENV === "production"
+        ? "_Secure-better-auth.session_token"
+        : "better-auth.session_token",
       attributes: {
         httpOnly: true,
         secure:
-          process.env.NODE_ENV === "production"
-            ? "_Secure-better-auth.session_token"
-            : "better-auth.session_token",
+          process.env.NODE_ENV === "production",
         sameSite: "lax",
         path: "/",
       },
