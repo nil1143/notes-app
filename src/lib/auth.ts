@@ -18,7 +18,10 @@ export const auth = betterAuth({
       name: "better-auth.session_token",
       attributes: {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure:
+          process.env.NODE_ENV === "production"
+            ? "_Secure-better-auth.session_token"
+            : "better-auth.session_token",
         sameSite: "lax",
         path: "/",
       },

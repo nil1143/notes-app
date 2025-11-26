@@ -52,7 +52,7 @@ export const HeroHeader = ({ isAuthenticated = false }: HeroHeaderProps) => {
             ) : (
               <>
                 <Button asChild variant="ghost">
-                  <Link href="/sign-in">Login</Link>
+                  <Link href="/login">Login</Link>
                 </Button>
                 <Button asChild variant="default">
                   <Link href="/signup">Sign Up</Link>
@@ -96,7 +96,7 @@ export const HeroHeader = ({ isAuthenticated = false }: HeroHeaderProps) => {
             ) : (
               <>
                 <Button asChild variant="ghost" className="w-full justify-start">
-                  <Link href="/sign-in">Login</Link>
+                  <Link href="/login">Login</Link>
                 </Button>
                 <Button asChild variant="ghost" className="w-full justify-start">
                   <Link href="/signup">Sign Up</Link>
