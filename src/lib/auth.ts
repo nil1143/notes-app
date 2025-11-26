@@ -5,7 +5,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 
 export const auth = betterAuth({
-  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  baseURL: process.env.BETTER_AUTH_URL || "https://notes-5zf4urvz7-toms-projects-4d25f87d.vercel.app",
   secret: process.env.BETTER_AUTH_SECRET,
   session: {
     cookieCache: {
